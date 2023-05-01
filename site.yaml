@@ -12,15 +12,16 @@
           state: present
 
       - name: Configuring HAproxy to use as a load balancer
-        template:
-               src: haproxy.cfg
-               dest: /etc/haproxy/haproxy.cfg
-               notify: Restart HAproxy
+        copy:
+           src: /haproxy.cfg
+           dest: /etc/haproxy/haproxy.cfg
+        notify: Restart haproxy
 
-      - name: Restart HAproxy
-        systemd:
-              name: haproxy
-              state: restarted
+    handlers:
+           - name: restart haproxy
+             systemd:
+                   name: haproxy
+                   state: restarted
 
   - hosts: webservers
     remote_user: ubuntu
@@ -37,29 +38,21 @@
       - name: installing python3-pip
         apt:
           state: latest
-          
+
       - name: installing python3-venv
         apt:
           state: latest
 
+
       - name: create virtual environment
         apt:
 
-      - name: activate virtual environment
-        apt:
-          path: source venv/bin/activate
-
-      - name: installing flask
-        pip:
-          state: latest
-          name: flask
-          virtualenv: /etc/flask-app/venv
-        tags:
-         - flask
 
       - name: Copy Flask app files
         copy:
            src: app.py
-           dest: /etc/flask-app
+           dest: /home/ubuntu
         tags:
             - flask
+
+
