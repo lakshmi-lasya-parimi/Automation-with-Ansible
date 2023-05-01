@@ -1,0 +1,10 @@
+[HAproxy]
+89.42.140.246 ansible_user=ubuntu ansible_connection=ssh
+
+[webservers]
+91.123.202.28 ansible_user=ubuntu ansible_connection=ssh
+91.106.199.222 ansible_user=ubuntu ansible_connection=ssh
+188.95.227.199 ansible_user=ubuntu ansible_connection=ssh
+
+[bastion]
+91.106.195.74 ansible_user=ubuntu ansible_connection=ssh
