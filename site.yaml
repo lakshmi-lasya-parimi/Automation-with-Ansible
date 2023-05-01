@@ -1,0 +1,65 @@
+---
+  - hosts: all
+    gather_facts: yes
+
+  - hosts: HAproxy
+    become: yes
+    tasks:
+      - name: Install HAproxy
+        apt:
+          name: haproxy
+          update_cache: yes
+          state: present
+
+      - name: Configuring HAproxy to use as a load balancer
+        template:
+               src: haproxy.cfg
+               dest: /etc/haproxy/haproxy.cfg
+               notify: Restart HAproxy
+
+      - name: Restart HAproxy
+        systemd:
+              name: haproxy
+              state: restarted
+
+  - hosts: webservers
+    remote_user: ubuntu
+    become: yes
+    tasks:
+      - name: update the system
+        apt:
+          update_cache: yes
+
+      - name: installing python3
+        apt:
+          state: latest
+
+      - name: installing python3-pip
+        apt:
+          state: latest
+          
+      - name: installing python3-venv
+        apt:
+          state: latest
+
+      - name: create virtual environment
+        apt:
+
+      - name: activate virtual environment
+        apt:
+          path: source venv/bin/activate
+
+      - name: installing flask
+        pip:
+          state: latest
+          name: flask
+          virtualenv: /etc/flask-app/venv
+        tags:
+         - flask
+
+      - name: Copy Flask app files
+        copy:
+           src: app.py
+           dest: /etc/flask-app
+        tags:
+            - flask
