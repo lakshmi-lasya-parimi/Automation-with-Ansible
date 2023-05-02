@@ -23,36 +23,60 @@
                    name: haproxy
                    state: restarted
 
-  - hosts: webservers
-    remote_user: ubuntu
+
+  - name: deploy flask app
+    hosts: webservers
     become: yes
     tasks:
-      - name: update the system
+      - name: update apt cache
         apt:
           update_cache: yes
 
-      - name: installing python3
+      - name: Install Python3
         apt:
           state: latest
 
-      - name: installing python3-pip
+      - name: install  python3-pip
         apt:
           state: latest
 
-      - name: installing python3-venv
+      - name: installing virtual environment python3-venv
+        become: yes
         apt:
+          name: python3-venv
           state: latest
 
+      - name: Create Flask app directory
+        file:
+          path: /home/ubuntu/flask-app
+          state: directory
+          owner: ubuntu
+          group: ubuntu
 
-      - name: create virtual environment
-        apt:
+      - name: Create virtual environment
+        command: python3 -m venv /home/ubuntu/venv
 
+      - name: Activate virtual environment
+        shell: . /home/ubuntu/flask-app/venv/bin/activate
 
-      - name: Copy Flask app files
+      - name: Install Flask
+        become: yes
+        pip:
+          name: flask
+          state: latest
+
+      - name: copy flask file and change directory
         copy:
-           src: app.py
-           dest: /home/ubuntu
-        tags:
-            - flask
+          src: app.py
+          dest: /home/ubuntu/flask-app/app.py
+          mode: '0755'
+
+      - name: change directory
+        shell: cd /home/ubuntu/flask-app
+
+      - name: Start and execute Flask app
+        shell: nohup  python3 /home/ubuntu/flask-app/app.py
+        async: 500
+        poll: 0
 
 
