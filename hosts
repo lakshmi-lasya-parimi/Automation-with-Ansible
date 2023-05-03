@@ -1,10 +1,15 @@
 [HAproxy]
-HAproxy ansible_user=ubuntu ansible_connection=ssh
+HAproxy
 
 [webservers]
-devA ansible_user=ubuntu ansible_connection=ssh
-devB ansible_user=ubuntu ansible_connection=ssh
-devC ansible_user=ubuntu ansible_connection=ssh
+devA 
+devB 
+devC 
 
 [bastionNSO]
-bastionNSO ansible_user=ubuntu ansible_connection=ssh
+bastionNSO 
+
+
+[all:vars]  
+ansible_user=ubuntu  
+##REMOVED sshkey entry, handled by external SSH config file ## 
