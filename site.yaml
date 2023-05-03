@@ -65,7 +65,7 @@
           name: flask
           state: latest
 
-      - name: copy flask file 
+      - name: copy flask file
         copy:
           src: app.py
           dest: /home/ubuntu/flask-app/app.py
