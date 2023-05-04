@@ -17,9 +17,8 @@
            dest: /etc/haproxy/haproxy.cfg
     
       - name: restart haproxy
-        systemd:
-              name: haproxy
-              state: restarted
+        become: yes
+        shell: systemctl restart haproxy
 
 
   - name: deploy flask app
