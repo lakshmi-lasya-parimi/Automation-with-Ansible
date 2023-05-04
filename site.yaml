@@ -15,6 +15,7 @@
         copy:
            src: /haproxy.cfg
            dest: /etc/haproxy/haproxy.cfg
+           haproxy_host_ipv4_address: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
         notify: Restart haproxy
 
     handlers:
