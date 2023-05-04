@@ -6,9 +6,6 @@ devA
 devB 
 devC 
 
-[bastionNSO]
-bastionNSO 
-
 
 [all:vars]  
 ansible_user=ubuntu  
