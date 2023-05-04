@@ -15,13 +15,11 @@
         copy:
            src: haproxy.cfg
            dest: /etc/haproxy/haproxy.cfg
-        notify: Restart haproxy
-
-    handlers:
-           - name: restart haproxy
-             systemd:
-                   name: haproxy
-                   state: restarted
+    
+      - name: restart haproxy
+        systemd:
+              name: haproxy
+              state: restarted
 
 
   - name: deploy flask app
@@ -75,7 +73,7 @@
         shell: cd /home/ubuntu/flask-app
 
       - name: Start and execute Flask app
-        shell: nohup  python3 /home/ubuntu/flask-app/app.py
+        shell: flask run -h 0.0.0.0 -p 5000
         async: 500
         poll: 0
 
