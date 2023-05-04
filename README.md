@@ -1,1 +1,2 @@
 # a2
+I have implemented a simple python-Flask app that responds to requests by replying with time and name of the host that replied. The app is deployed on 3 servers and load balancing using HAproxy. The deployment is done using Ansible-playbook (site.yaml). The HAproxy acts as an entry point to the service and load balancing is done among devA, devB, devC. The dev servers use private addresses from the network. They don't have any direct public access.
