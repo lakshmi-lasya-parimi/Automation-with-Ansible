@@ -49,6 +49,12 @@
           state: directory
           owner: ubuntu
           group: ubuntu
+          
+      - name: Install Flask
+        become: yes
+        pip:
+          name: flask
+          state: latest
 
       - name: Create virtual environment
         command: python3 -m venv /home/ubuntu/venv
@@ -56,11 +62,6 @@
       - name: Activate virtual environment
         shell: . /home/ubuntu/flask-app/venv/bin/activate
 
-      - name: Install Flask
-        become: yes
-        pip:
-          name: flask
-          state: latest
 
       - name: copy flask file
         copy:
