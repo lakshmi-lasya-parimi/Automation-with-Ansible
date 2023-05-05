@@ -55,6 +55,9 @@
         pip:
           name: flask
           state: latest
+          
+      - name: change directory
+        shell: cd /home/ubuntu/flask-app
 
       - name: Create virtual environment
         command: python3 -m venv /home/ubuntu/venv
@@ -69,8 +72,6 @@
           dest: /home/ubuntu/flask-app/app.py
           mode: '0755'
 
-      - name: change directory
-        shell: cd /home/ubuntu/flask-app
 
       - name: Start and execute Flask app
         shell: flask run -h 0.0.0.0 -p 5000
@@ -78,3 +79,29 @@
         poll: 0
 
  
+  - hosts: HAproxy
+    become: yes
+    tasks:
+      - name: test HAproxy 1
+        uri:
+          url: "http://localhost/"
+          return_content:  yes
+        register: html_content
+      - debug:
+            msg: "{{ html_content.content }}"
+
+      - name: test HAproxy 2
+        uri:
+          url: "http://localhost/"
+          return_content:  yes
+        register: html_content
+      - debug:
+            msg: "{{ html_content.content }}"
+
+      - name: test HAproxy 3
+        uri:
+          url: "http://localhost/"
+          return_content:  yes
+        register: html_content
+      - debug:
+            msg: "{{ html_content.content }}"  
