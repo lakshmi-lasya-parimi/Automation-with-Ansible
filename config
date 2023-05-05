@@ -6,7 +6,7 @@ Host bastionNSO
 Host HAproxy
         Hostname 89.42.140.246
         User ubuntu
-        ProxyJump bastionNSO
+        
         IdentityFile ~/.ssh/id_rsa
 
 Host devA
