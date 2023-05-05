@@ -36,7 +36,7 @@ defaults
 frontend haproxynode
     bind *:80
     mode http
-    default_backend backendnodes
+    default_backend web-backend
 
 backend web-backend
         balance roundrobin
