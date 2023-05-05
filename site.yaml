@@ -80,7 +80,7 @@
         poll: 0
 
 
-  - hosts: haproxy
+  - hosts: HAproxy
     become: yes
     tasks:
       -  name: "restarting haproxy services"
