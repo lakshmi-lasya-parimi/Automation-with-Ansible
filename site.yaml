@@ -6,6 +6,7 @@
     become: yes
     tasks:
       - name: Install HAproxy
+        become: yes
         apt:
           name: haproxy
           update_cache: yes
