@@ -79,4 +79,14 @@
         async: 500
         poll: 0
 
+
+  - hosts: haproxy
+    become: yes
+    tasks:
+      -  name: "restarting haproxy services"
+         service:
+                name: "haproxy"
+                state: started
+        
+
  
