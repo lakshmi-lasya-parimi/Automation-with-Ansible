@@ -12,7 +12,7 @@ def index():
     Time= time.strftime("%H:%M:%S")
     return Time+" Serving from "+h_name+" ("+IP_addres+")\n"
 if __name__=='__main_':
-    app.run(host='0.0.0.0', port=5000,debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=True)
  
 if __name__=='__main__':
         app.run(host='0.0.0.0',port=5000,debug=True)
