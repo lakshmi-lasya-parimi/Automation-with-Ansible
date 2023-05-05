@@ -16,10 +16,10 @@
            src: haproxy.cfg
            dest: /etc/haproxy/haproxy.cfg
     
-      - name: restart haproxy
-        become: yes
-        shell: systemctl restart haproxy
-
+      - name: "restarting haproxy services"
+        service:
+                name: "haproxy"
+                state: started
 
   - name: deploy flask app
     hosts: webservers
