@@ -14,7 +14,7 @@
 
       - name: Configuring HAproxy to use as a load balancer
         copy:
-           src: haproxy.cfg
+           src: haproxy.cfg.j2
            dest: /etc/haproxy/haproxy.cfg
     
       - name: "restarting haproxy services"
