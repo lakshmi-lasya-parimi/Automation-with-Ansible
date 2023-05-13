@@ -8,41 +8,26 @@
         apt:
           update_cache: true
 
-  - hosts: HAproxy
-    become: yes
-    tasks:
-      - name: Install HAproxy
-        become: yes
-        apt:
-          name: haproxy
-
-          state: present
-
-      - name: Configuring HAproxy to use as a load balancer
-        template:
-           src: /$PWD/haproxy.cfg.j2
-           dest: /etc/haproxy/haproxy.cfg
-
-      - name: "restarting haproxy services"
-        service:
-                name: haproxy
-                state: started
 
   - name: deploy flask app
     hosts: webservers
     become: yes
+    become_method: sudo
     tasks:
       - name: update apt cache
         apt:
           update_cache: yes
 
-      - name: Install Python3
-        apt:
-          state: latest
+#      - name: Install Python3
+ ##       apt:
+
+#       state: latest
 
       - name: install  python3-pip
         apt:
+          name: python3-pip
           state: latest
+          update_cache: yes
 
             #    - name: Create Flask app directory
             #        file:
@@ -87,14 +72,30 @@
             #        async: 500
             #        poll: 0
       - name: run Flask app
-        shell: gunicorn -w 2 -D -b 0.0.0.0:5000 app2.py
+        shell: gunicorn -w 2 -D -b 0.0.0.0:5000 app2:app
 
 
 
   - hosts: HAproxy
-    become: yes
+    become: true
+
     tasks:
-      -  name: "restarting haproxy services"
-         service:
-                name: "haproxy"
-                state: started
+
+      - name: apt update
+        apt:
+          update_cache: yes
+
+      - name: Installing HAPROXY
+        apt:
+          name: haproxy
+          state: present
+
+      - name: Configure haproxy
+        template:
+          src: /$PWD/haproxy.cfg.j2
+          dest: /etc/haproxy/haproxy.cfg
+
+      - name: Restart haproxy
+        service:
+          name: haproxy
+          state: restarted
